@@ -1,39 +1,117 @@
 # UniEvent — Sistema de Gestão de Eventos Acadêmicos
 
-Bem-vindo ao repositório do **UniEvent**, um sistema web completo para gerenciamento de eventos acadêmicos, desenvolvido em C# com a plataforma ASP.NET Core MVC. 
 
-## 🎯 Objetivo do Sistema
 
-O UniEvent foi projetado para centralizar a organização, inscrições, controle de presença (check-in), emissão automatizada de certificados em PDF e validação pública de autenticidade para eventos acadêmicos. 
-Ele resolve o problema das listas de presença impressas e formulários genéricos, automatizando o fluxo desde o planejamento da agenda até a entrega do comprovante de horas complementares.
+O **UniEvent** é um sistema web desenvolvido para gerenciamento de eventos acadêmicos, permitindo organizar eventos, controlar inscrições e presença dos participantes e automatizar a emissão de certificados.
 
-## 🛠️ Tecnologias Utilizadas
+O projeto centraliza em uma única aplicação o fluxo de participação em eventos acadêmicos, desde a criação e divulgação do evento até o check-in e a emissão do certificado, substituindo processos manuais como listas de presença impressas e formulários separados.
 
-* **Linguagem**: C# 12+
-* **Framework Web**: ASP.NET Core MVC (.NET 8+)
-* **Acesso a Dados**: Entity Framework Core
-* **Banco de Dados**: SQL Server
-* **Autenticação/Autorização**: ASP.NET Core Identity
-* **Frontend**: HTML5, CSS3, e Bootstrap
+## Principais Funcionalidades
 
-## 🏗️ Arquitetura e Estrutura
+* Cadastro e autenticação de usuários.
+* Controle de acesso por perfil de **Organizador** e **Participante**.
+* Criação, edição, visualização e exclusão de eventos acadêmicos.
+* Definição de data, horário, carga horária e limite de vagas.
+* Visualização dos eventos disponíveis.
+* Inscrição de participantes em eventos com controle automático de vagas.
+* Bloqueio de inscrições duplicadas no mesmo evento.
+* Check-in e confirmação de presença pelos organizadores.
+* Histórico de eventos e participações do usuário.
+* Emissão de certificados em PDF para participantes com presença confirmada.
+* Geração de código único de validação para cada certificado.
+* Página pública para consulta e validação da autenticidade dos certificados.
 
-O sistema adota a arquitetura **MVC (Model-View-Controller)**, balanceando uma estruturação robusta e simples sem complexidade artificial:
-- **Models/Entities**: Modelagem de domínio e banco de dados.
-- **Views**: Interfaces do usuário responsivas.
-- **Controllers**: Intermediação de dados.
-- **Services**: Isolamento das regras de negócio críticas (como limite de vagas e geração de PDF).
-- **Data**: Contexto de persistência do Entity Framework.
+## Tecnologias Utilizadas
 
-## 👥 Perfis de Usuário
-O sistema é dividido em dois perfis principais gerenciados por *Roles* do ASP.NET Core Identity:
-1. **Organizadores (Coordenação/Professores)**: Podem criar eventos, controlar vagas e validar presença.
-2. **Participantes (Alunos)**: Podem visualizar a agenda, realizar inscrições e emitir seus próprios certificados de presença confirmada.
+* **Back-end:** C#, ASP.NET Core MVC, Entity Framework Core
+* **Front-end:** HTML5, CSS3, Bootstrap
+* **Banco de Dados:** Microsoft SQL Server
+* **Autenticação e Autorização:** ASP.NET Core Identity e Roles
+* **Arquitetura:** MVC (Model-View-Controller)
+* **Controle de Versão:** Git e GitHub
 
-## 📖 Documentação do Projeto
+## Arquitetura do Projeto
 
-A evolução da modelagem e regras de negócio está sendo documentada na pasta `docs/`.
-- [Resultado 1: Análise e Modelagem Inicial](docs/Resultado_1.md)
+O UniEvent utiliza o padrão **MVC (Model-View-Controller)** para manter as responsabilidades da aplicação organizadas e facilitar sua manutenção e evolução.
 
----
-*Este projeto está sendo construído de forma incremental, seguindo as entregas do Estágio Supervisionado III, focado na robustez arquitetural para portfólio profissional.*
+A estrutura principal é dividida em:
+
+* **Models:** entidades e modelos utilizados pela aplicação.
+* **Views:** interfaces responsáveis pela interação com o usuário.
+* **Controllers:** responsáveis pela comunicação entre as Views, regras da aplicação e dados.
+* **Services:** concentração das regras de negócio que exigem tratamento específico, como controle de vagas e geração de certificados.
+* **Data:** configuração do contexto e acesso aos dados utilizando Entity Framework Core.
+
+O `ApplicationDbContext` utiliza o ASP.NET Core Identity como base para gerenciamento dos usuários e autenticação da aplicação.
+
+## Perfis de Usuário
+
+O sistema possui dois perfis principais, controlados através de **Roles** do ASP.NET Core Identity.
+
+### Organizador
+
+Representa professores e membros da coordenação responsáveis pela organização dos eventos.
+
+Pode:
+
+* Criar e gerenciar eventos.
+* Definir quantidade de vagas.
+* Acompanhar participantes inscritos.
+* Realizar o check-in e confirmar a presença dos participantes.
+
+### Participante
+
+Representa os alunos que participam dos eventos acadêmicos.
+
+Pode:
+
+* Visualizar os eventos disponíveis.
+* Realizar inscrições.
+* Consultar seu histórico de participação.
+* Emitir certificados quando sua presença estiver confirmada.
+
+## Certificados
+
+Os certificados são disponibilizados somente para participantes que tiveram sua presença confirmada pelo organizador do evento.
+
+Cada certificado contém informações como:
+
+* Nome do participante.
+* Nome do evento.
+* Data do evento.
+* Carga horária.
+* Data de emissão.
+* Código único de validação.
+
+O sistema também possui uma página pública para consulta desse código, permitindo que terceiros verifiquem a autenticidade do certificado sem necessidade de login.
+
+## Regras de Negócio
+
+Algumas das principais regras implementadas no sistema são:
+
+* Um participante não pode se inscrever duas vezes no mesmo evento.
+* Novas inscrições são bloqueadas quando o limite de vagas é atingido.
+* Apenas organizadores podem criar e gerenciar eventos ou confirmar presença.
+* Participantes podem emitir somente os próprios certificados.
+* Um certificado só pode ser emitido após a confirmação da presença.
+* Cada certificado possui um código único para validação de autenticidade.
+
+## Segurança
+
+A autenticação e autorização dos usuários são realizadas através do **ASP.NET Core Identity**, responsável pelo gerenciamento seguro das contas, armazenamento protegido das senhas e controle de acesso baseado em Roles.
+
+Informações sensíveis e credenciais utilizadas durante o desenvolvimento não são armazenadas diretamente no código-fonte ou versionadas no repositório.
+
+## Documentação
+
+A documentação técnica e acadêmica do projeto está disponível na pasta [`docs`](./docs).
+
+* [Resultado 1 — Análise, Modelagem e Estrutura do UniEvent](./docs/Resultado_1.md)
+
+A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento.
+
+## Status do Projeto
+
+**Em desenvolvimento.**
+
+O UniEvent está sendo desenvolvido de forma incremental durante o **Estágio Supervisionado III**, com novas funcionalidades, testes e documentação sendo adicionados conforme a evolução do projeto.
