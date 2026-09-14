@@ -114,7 +114,7 @@ Informações sensíveis e credenciais utilizadas durante o desenvolvimento não
 
 A documentação técnica e acadêmica do projeto está disponível na pasta [`docs`](./docs).
 
-* [Resultado 1 — Análise, Modelagem e Estrutura do UniEvent](./docs/Resultado_1.md)
+* [Resultado 1 — Análise, Modelagem e Estrutura do UniEvent](docs/Cronograma_Estagio_assinado.pdf)
 
 A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento.
 
