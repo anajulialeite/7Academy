@@ -1,0 +1,34 @@
+@model IEnumerable<EventManager.Web.Models.Event>
+
+@{
+    ViewData["Title"] = "Eventos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-primary">Eventos Acadêmicos</h1>
+    @if (User.IsInRole("Organizador"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Criar Novo Evento</a>
+    }
+</div>
+
+<div class="row">
+    @foreach (var item in Model) {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-secondary">@item.Title</h5>
+                    <p class="card-text text-muted">@item.DateTime.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="card-text">@item.Description</p>
+                    <div class="d-flex justify-content-between">
+                        <span class="badge bg-info text-dark">Vagas: @item.TotalSlots</span>
+                        <span class="badge bg-secondary">Carga: @item.WorkloadHours h</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-0 text-center">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
