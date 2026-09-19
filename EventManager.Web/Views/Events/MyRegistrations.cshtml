@@ -1,0 +1,37 @@
+﻿@model IEnumerable<EventManager.Web.Models.EventRegistration>
+
+@{
+    ViewData["Title"] = "Minhas Inscrições";
+}
+
+<h1 class="text-primary mb-4">Minhas Inscrições</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0 text-secondary">@item.Event?.Title</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1"><strong>Data do Evento:</strong> @item.Event?.DateTime.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="mb-1"><strong>Organizador:</strong> @item.Event?.Organizer?.FullName</p>
+                    <p class="mb-1"><strong>Carga Horária:</strong> @item.Event?.WorkloadHours horas</p>
+                    <hr />
+                    <p class="mb-0">
+                        <small class="text-muted">Inscrito em: @item.RegistrationDate.ToString("dd/MM/yyyy HH:mm")</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="col-12 text-center py-5">
+            <p class="text-muted lead">Você ainda não se inscreveu em nenhum evento.</p>
+            <a asp-action="Index" class="btn btn-primary">Ver Eventos Disponíveis</a>
+        </div>
+    }
+</div>

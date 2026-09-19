@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -84,10 +84,9 @@ namespace EventManager.Web.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
-            // Check limits and duplications
             if (@event.Registrations.Any(r => r.ParticipantId == userId))
             {
-                TempData["ErrorMessage"] = "Você já está inscrito neste evento.";
+                TempData["ErrorMessage"] = "VocÃª jÃ¡ estÃ¡ inscrito neste evento.";
                 return RedirectToAction(nameof(Details), new { id = @event.Id });
             }
 
@@ -108,8 +107,109 @@ namespace EventManager.Web.Controllers
             _context.EventRegistrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Inscrição realizada com sucesso!";
+            TempData["SuccessMessage"] = "InscriÃ§Ã£o realizada com sucesso!";
             return RedirectToAction(nameof(Details), new { id = @event.Id });
+        }
+
+        // GET: Events/MyEvents
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> MyEvents()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var events = await _context.Events
+                .Include(e => e.Registrations)
+                .Where(e => e.OrganizerId == userId)
+                .OrderByDescending(e => e.DateTime)
+                .ToListAsync();
+            return View(events);
+        }
+
+        // GET: Events/Edit/5
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var @event = await _context.Events.FindAsync(id);
+            if (@event == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (@event.OrganizerId != userId) return Forbid();
+
+            return View(@event);
+        }
+
+        // POST: Events/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,DateTime,WorkloadHours,TotalSlots")] Event eventInput)
+        {
+            if (id != eventInput.Id) return NotFound();
+
+            var @event = await _context.Events.FindAsync(id);
+            if (@event == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (@event.OrganizerId != userId) return Forbid();
+
+            ModelState.Remove("OrganizerId");
+            ModelState.Remove("Organizer");
+            ModelState.Remove("Registrations");
+
+            if (ModelState.IsValid)
+            {
+                @event.Title = eventInput.Title;
+                @event.Description = eventInput.Description;
+                @event.DateTime = eventInput.DateTime;
+                @event.WorkloadHours = eventInput.WorkloadHours;
+                @event.TotalSlots = eventInput.TotalSlots;
+
+                try
+                {
+                    _context.Update(@event);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Events.Any(e => e.Id == @event.Id)) return NotFound();
+                    else throw;
+                }
+                return RedirectToAction(nameof(MyEvents));
+            }
+            return View(eventInput);
+        }
+
+        // POST: Events/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var @event = await _context.Events.FindAsync(id);
+            if (@event != null)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (@event.OrganizerId != userId) return Forbid();
+
+                _context.Events.Remove(@event);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(MyEvents));
+        }
+
+        // GET: Events/MyRegistrations
+        public async Task<IActionResult> MyRegistrations()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var registrations = await _context.EventRegistrations
+                .Include(r => r.Event)
+                .ThenInclude(e => e.Organizer)
+                .Where(r => r.ParticipantId == userId)
+                .OrderByDescending(r => r.RegistrationDate)
+                .ToListAsync();
+                
+            return View(registrations);
         }
     }
 }
