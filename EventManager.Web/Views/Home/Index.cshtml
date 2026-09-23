@@ -1,8 +1,61 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Bem-vindo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5 mb-5">
+    <div class="py-5 rounded-3 shadow border border-warning" style="background: linear-gradient(135deg, rgba(58, 26, 84, 0.8) 0%, rgba(90, 42, 130, 0.9) 100%);">
+        <h1 class="display-4 fw-bold text-warning">
+            <i class="bi bi-mortarboard-fill me-2"></i> 7Academy
+        </h1>
+        <p class="lead text-light mt-3 mb-4 mx-auto" style="max-width: 600px;">
+            A plataforma definitiva para gestão e controle de eventos acadêmicos, seminários e certificados extracurriculares.
+        </p>
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-4 me-2 shadow rounded-pill">
+                <i class="bi bi-calendar-event me-2"></i> Ver Eventos
+            </a>
+            <a asp-controller="Events" asp-action="MyRegistrations" class="btn btn-outline-light btn-lg px-4 shadow rounded-pill">
+                <i class="bi bi-journal-check me-2"></i> Minhas Inscrições
+            </a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg px-5 shadow rounded-pill">
+                Criar Conta Agora <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+            <p class="mt-3 text-light"><small>Já tem uma conta? <a asp-area="Identity" asp-page="/Account/Login" class="text-warning fw-bold">Faça login</a>.</small></p>
+        }
+    </div>
+
+    <div class="row mt-5 text-start">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body">
+                    <div class="display-6 text-warning mb-3"><i class="bi bi-clock-history"></i></div>
+                    <h5 class="fw-bold text-light">Gestão de Horas</h5>
+                    <p class="text-muted">Acompanhe facilmente a carga horária complementar de todos os eventos em que você participou.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body">
+                    <div class="display-6 text-warning mb-3"><i class="bi bi-ticket-perforated"></i></div>
+                    <h5 class="fw-bold text-light">Inscrição Rápida</h5>
+                    <p class="text-muted">Garanta sua vaga em workshops, palestras e seminários com apenas um clique.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body">
+                    <div class="display-6 text-warning mb-3"><i class="bi bi-award"></i></div>
+                    <h5 class="fw-bold text-light">Certificados Digitais</h5>
+                    <p class="text-muted">Geração automática de certificados de participação com validação eletrônica (Em breve).</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
