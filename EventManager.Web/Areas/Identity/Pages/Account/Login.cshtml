@@ -1,0 +1,62 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="row justify-content-center align-items-center mt-5">
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-lg border-warning rounded-4 overflow-hidden">
+            <div class="card-header bg-dark-purple text-warning text-center py-4 border-bottom border-warning">
+                <h2 class="mb-0 fw-bold"><i class="bi bi-box-arrow-in-right me-2"></i>Acesse sua conta</h2>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                    
+                    <div class="form-floating mb-4 text-dark">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="background-color: #fff; color: #333;" />
+                        <label asp-for="Input.Email" class="form-label text-muted">E-mail</label>
+                        <span asp-validation-for="Input.Email" class="text-warning fw-bold"></span>
+                    </div>
+                    
+                    <div class="form-floating mb-4 text-dark">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" style="background-color: #fff; color: #333;" />
+                        <label asp-for="Input.Password" class="form-label text-muted">Senha</label>
+                        <span asp-validation-for="Input.Password" class="text-warning fw-bold"></span>
+                    </div>
+                    
+                    <div class="checkbox mb-4">
+                        <label asp-for="Input.RememberMe" class="form-label text-light">
+                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                            Lembrar-me
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <button id="login-submit" type="submit" class="w-100 btn btn-primary btn-lg rounded-pill shadow-sm mb-3">Entrar</button>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-2">
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-warning text-decoration-none">Ainda não tem conta? Registre-se</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-5 offset-md-1 d-none d-md-block text-center">
+        <div class="p-4 bg-dark-purple rounded-4 border border-warning shadow-lg">
+            <h3 class="text-warning mb-3">Bem-vindo de volta!</h3>
+            <p class="text-light mb-4">Gerencie sua presença, emita seus certificados e acompanhe todas as suas horas complementares em um só lugar.</p>
+            <i class="bi bi-laptop" style="font-size: 8rem; color: #D4AF37;"></i>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
