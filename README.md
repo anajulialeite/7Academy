@@ -1,4 +1,4 @@
-# UniEvent — Sistema de Gestão de Eventos Acadêmicos
+# 7Academy — Sistema de Gestão de Eventos Acadêmicos
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-plain.svg" align="left" width="50" height="50" /> 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" align="left" width="50" height="50" /> 
@@ -11,7 +11,7 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" align="left" width="50" height="50" />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" align="center" width="50" height="50" />
 
-O **UniEvent** é um sistema web desenvolvido para gerenciamento de eventos acadêmicos, permitindo organizar eventos, controlar inscrições e presença dos participantes e automatizar a emissão de certificados.
+O **7Academy** é um sistema web desenvolvido para gerenciamento de eventos acadêmicos, permitindo organizar eventos, controlar inscrições e presença dos participantes e automatizar a emissão de certificados.
 
 O projeto centraliza em uma única aplicação o fluxo de participação em eventos acadêmicos, desde a criação e divulgação do evento até o check-in e a emissão do certificado, substituindo processos manuais como listas de presença impressas e formulários separados.
 
@@ -41,7 +41,7 @@ O projeto centraliza em uma única aplicação o fluxo de participação em even
 
 ## Arquitetura do Projeto
 
-O UniEvent utiliza o padrão **MVC (Model-View-Controller)** para manter as responsabilidades da aplicação organizadas e facilitar sua manutenção e evolução.
+O 7Academy utiliza o padrão **MVC (Model-View-Controller)** para manter as responsabilidades da aplicação organizadas e facilitar sua manutenção e evolução.
 
 A estrutura principal é dividida em:
 
@@ -115,7 +115,7 @@ Informações sensíveis e credenciais utilizadas durante o desenvolvimento não
 
 A documentação técnica e acadêmica do projeto está disponível na pasta [`docs`](./docs).
 
-* [Resultado 1 — Análise, Modelagem e Estrutura do UniEvent](docs/Cronograma_Estagio_assinado.pdf)
+* [Resultado 1 — Análise, Modelagem e Estrutura do 7Academy](docs/Cronograma_Estagio_assinado.pdf)
 
 A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento.
 
@@ -123,7 +123,7 @@ A documentação acompanha a evolução do sistema durante as etapas de desenvol
 
 **Em desenvolvimento.**
 
-O UniEvent está sendo desenvolvido de forma incremental durante o **Estágio Supervisionado III**, com novas funcionalidades, testes e documentação sendo adicionados conforme a evolução do projeto.
+O 7Academy está sendo desenvolvido de forma incremental durante o **Estágio Supervisionado III**, com novas funcionalidades, testes e documentação sendo adicionados conforme a evolução do projeto.
 
 ## Autora
 
