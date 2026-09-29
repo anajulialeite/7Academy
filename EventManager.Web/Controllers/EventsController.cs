@@ -20,14 +20,14 @@ namespace EventManager.Web.Controllers
             _userManager = userManager;
         }
 
-        // GET: Events
+        // GET: Eventos (Lista)
         public async Task<IActionResult> Index()
         {
             var events = await _context.Events.Include(e => e.Organizer).ToListAsync();
             return View(events);
         }
 
-        // GET: Events/Details/5
+        // GET: Eventos (Lista)/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,14 +47,14 @@ namespace EventManager.Web.Controllers
             return View(@event);
         }
 
-        // GET: Events/Create
+        // GET: Eventos (Lista)/Create
         [Authorize(Roles = "Organizador")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Criar Evento
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Organizador")]
@@ -111,7 +111,7 @@ namespace EventManager.Web.Controllers
             return RedirectToAction(nameof(Details), new { id = @event.Id });
         }
 
-        // GET: Events/MyEvents
+        // GET: Eventos (Lista)/MyEvents
         [Authorize(Roles = "Organizador")]
         public async Task<IActionResult> MyEvents()
         {
@@ -124,7 +124,7 @@ namespace EventManager.Web.Controllers
             return View(events);
         }
 
-        // GET: Events/Edit/5
+        // GET: Eventos (Lista)/Edit/5
         [Authorize(Roles = "Organizador")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -139,7 +139,7 @@ namespace EventManager.Web.Controllers
             return View(@event);
         }
 
-        // POST: Events/Edit/5
+        // POST: Editar Evento
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Organizador")]
@@ -180,7 +180,7 @@ namespace EventManager.Web.Controllers
             return View(eventInput);
         }
 
-        // POST: Events/Delete/5
+        // POST: Excluir Evento
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Organizador")]
@@ -198,7 +198,7 @@ namespace EventManager.Web.Controllers
             return RedirectToAction(nameof(MyEvents));
         }
 
-        // GET: Events/MyRegistrations
+        // GET: Eventos (Lista)/MyRegistrations
         public async Task<IActionResult> MyRegistrations()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

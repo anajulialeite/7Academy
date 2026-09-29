@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using EventManager.Web.Models;
 
 namespace EventManager.Web.Data
@@ -20,7 +20,7 @@ namespace EventManager.Web.Data
                 }
             }
 
-            // You can optionally create an initial Organizer here
+            // Você pode criar um Organizador inicial aqui (opcional)
         }
     }
 }
