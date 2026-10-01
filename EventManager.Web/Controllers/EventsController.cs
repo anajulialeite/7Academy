@@ -60,6 +60,10 @@ namespace EventManager.Web.Controllers
         [Authorize(Roles = "Organizador")]
         public async Task<IActionResult> Create([Bind("Title,Description,DateTime,WorkloadHours,TotalSlots")] Event @event)
         {
+            ModelState.Remove("OrganizerId");
+            ModelState.Remove("Organizer");
+            ModelState.Remove("Registrations");
+
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -196,6 +200,76 @@ namespace EventManager.Web.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(MyEvents));
+        }
+
+        // GET: Eventos/ManageParticipants/5
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> ManageParticipants(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var @event = await _context.Events
+                .Include(e => e.Registrations)
+                .ThenInclude(r => r.Participant)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (@event == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (@event.OrganizerId != userId) return Forbid();
+
+            return View(@event);
+        }
+
+        // POST: Eventos/UpdateParticipant
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Organizador")]
+        public async Task<IActionResult> UpdateParticipant(int eventId, int registrationId)
+        {
+            var @event = await _context.Events.FindAsync(eventId);
+            if (@event == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (@event.OrganizerId != userId) return Forbid();
+
+            var registration = await _context.EventRegistrations.FindAsync(registrationId);
+            if (registration == null || registration.EventId != eventId) return NotFound();
+
+            var presenceValue = Request.Form["isPresenceConfirmed"].ToString(); registration.IsPresenceConfirmed = presenceValue.Contains("true"); var ratingStr = Request.Form["rating"].ToString(); if(int.TryParse(ratingStr, out int r)) registration.Rating = r; else registration.Rating = null;
+            
+
+            _context.Update(registration);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = $"DEBUG: eventId={eventId} regId={registrationId} formPresence={Request.Form["isPresenceConfirmed"]} boolValue={presenceValue.Contains("true")} formRating={Request.Form["rating"]}";
+            return RedirectToAction(nameof(ManageParticipants), new { id = eventId });
+        }
+
+        // GET: Eventos/DownloadCertificate/5
+        public async Task<IActionResult> DownloadCertificate(int id, [FromServices] EventManager.Web.Services.CertificateService certificateService)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var registration = await _context.EventRegistrations
+                .Include(r => r.Event)
+                .Include(r => r.Participant)
+                .FirstOrDefaultAsync(r => r.Id == id && r.ParticipantId == userId);
+
+            if (registration == null) return NotFound();
+            
+            if (!registration.IsPresenceConfirmed)
+            {
+                TempData["ErrorMessage"] = "Seu certificado ainda não está liberado. É necessário confirmação de presença.";
+                return RedirectToAction(nameof(MyRegistrations));
+            }
+
+            try {
+                var pdfBytes = certificateService.GenerateCertificate(registration);
+                return File(pdfBytes, "application/pdf", $"Certificado_{registration.Event?.Title}.pdf");
+            } catch (System.Exception ex) {
+                TempData["ErrorMessage"] = "Erro gerando PDF: " + ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : "");
+                return RedirectToAction(nameof(MyRegistrations));
+            }
         }
 
         // GET: Eventos (Lista)/MyRegistrations
