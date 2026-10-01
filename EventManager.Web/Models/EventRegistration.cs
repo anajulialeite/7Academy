@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventManager.Web.Models
@@ -14,10 +14,18 @@ namespace EventManager.Web.Models
         public string ParticipantId { get; set; } = string.Empty;
         public ApplicationUser? Participant { get; set; }
 
-        [Display(Name = "Data da Inscri��o")]
+        [Display(Name = "Data da Inscrição")]
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        [Display(Name = "Presen�a Confirmada")]
+        [Display(Name = "Presença Confirmada")]
         public bool IsPresenceConfirmed { get; set; } = false;
+
+        [Display(Name = "Nota (Avaliação)")]
+        [Range(1, 10)]
+        public int? Rating { get; set; }
+
+        [Display(Name = "Feedback")]
+        [StringLength(500)]
+        public string? Feedback { get; set; }
     }
 }
