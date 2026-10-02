@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using EventManager.Web.Data;
 using EventManager.Web.Models;
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+QuestPDF.Settings.UseSystemFonts = true;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Fallback absoluto para resolução do wwwroot (funciona independente do diretório de VS)
@@ -24,7 +28,7 @@ if (!string.IsNullOrEmpty(baseDir))
 builder.WebHost.UseUrls("http://localhost:5211");
 
 // Adiciona serviços ao contêiner.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("String de conexão não encontrada.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("String de conexÃ£o nÃ£o encontrada.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -33,8 +37,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<EventManager.Web.Services.CertificateService>();
 
 var app = builder.Build();
+QuestPDF.Drawing.FontManager.RegisterFontFromStream(System.IO.File.OpenRead(System.IO.Path.Combine(app.Environment.WebRootPath, "fonts", "Montserrat-Bold.ttf")));
+QuestPDF.Drawing.FontManager.RegisterFontFromStream(System.IO.File.OpenRead(System.IO.Path.Combine(app.Environment.WebRootPath, "fonts", "DancingScript-Bold.ttf")));
 
 // Configura o pipeline de requisições HTTP.
 if (app.Environment.IsDevelopment())
