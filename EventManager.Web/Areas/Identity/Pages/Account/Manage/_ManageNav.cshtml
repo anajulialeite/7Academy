@@ -1,0 +1,15 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link fw-bold text-light @(ManageNavPages.IndexNavClass(ViewContext) != null ? "bg-warning text-dark rounded" : "")" id="profile" asp-page="./Index">Perfil</a></li>
+    <li class="nav-item"><a class="nav-link fw-bold text-light @(ManageNavPages.EmailNavClass(ViewContext) != null ? "bg-warning text-dark rounded" : "")" id="email" asp-page="./Email">E-mail</a></li>
+    <li class="nav-item"><a class="nav-link fw-bold text-light @(ManageNavPages.ChangePasswordNavClass(ViewContext) != null ? "bg-warning text-dark rounded" : "")" id="change-password" asp-page="./ChangePassword">Senha</a></li>
+    @if (hasExternalLogins)
+    {
+        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+    }
+    <li class="nav-item"><a class="nav-link fw-bold text-light @(ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) != null ? "bg-warning text-dark rounded" : "")" id="two-factor" asp-page="./TwoFactorAuthentication">Autenticação de Dois Fatores</a></li>
+    <li class="nav-item"><a class="nav-link fw-bold text-light @(ManageNavPages.PersonalDataNavClass(ViewContext) != null ? "bg-warning text-dark rounded" : "")" id="personal-data" asp-page="./PersonalData">Dados Pessoais</a></li>
+</ul>

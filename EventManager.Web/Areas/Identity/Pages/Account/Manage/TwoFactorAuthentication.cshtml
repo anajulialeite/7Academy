@@ -1,0 +1,17 @@
+﻿@page
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Autenticação em Duas Etapas (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<h3 class="text-warning">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="text-light">
+    <h5 class="mt-4">Aplicativo Autenticador</h5>
+    <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-warning fw-bold">Configurar aplicativo autenticador</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
