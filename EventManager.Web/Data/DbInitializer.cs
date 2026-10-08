@@ -20,7 +20,14 @@ namespace EventManager.Web.Data
                 }
             }
 
-            // Você pode criar um Organizador inicial aqui (opcional)
+            
+            // Dá a permissão de Organizador para a Ana Julia
+            var user = await userManager.FindByEmailAsync("anajulia_aninha2@hotmail.com");
+            if (user != null && !await userManager.IsInRoleAsync(user, "Organizador"))
+            {
+                await userManager.AddToRoleAsync(user, "Organizador");
+            }
+
         }
     }
 }
