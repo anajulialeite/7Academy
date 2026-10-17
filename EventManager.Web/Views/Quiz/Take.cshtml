@@ -1,0 +1,80 @@
+@model EventManager.Web.Models.EventRegistration
+@{
+    ViewData["Title"] = "Prova de Certificação";
+    var questions = (List<EventManager.Web.Models.Question>)ViewBag.Questions;
+    int n = 0;
+}
+
+<div class="quiz-wrapper mx-auto" style="max-width: 860px;">
+    <div class="text-center mb-4">
+        <span class="badge bg-warning text-dark mb-2 px-3 py-2"><i class="bi bi-mortarboard-fill me-1"></i>Prova de Certificação</span>
+        <h1 class="text-warning fw-bold">@Model.Event?.Title</h1>
+        <p class="text-light opacity-75 mb-0">
+            @questions.Count questões &bull; Nota mínima para aprovação: <strong class="text-warning">7,0</strong>
+        </p>
+    </div>
+
+    <div class="progress mb-4 bg-dark border border-warning" style="height: 10px;">
+        <div id="quizProgress" class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+    </div>
+
+    <form id="quizForm" asp-action="Submit" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+
+        @foreach (var q in questions)
+        {
+            n++;
+            <div class="card bg-dark-purple border-warning shadow-sm mb-4 quiz-card">
+                <div class="card-body text-light">
+                    <h5 class="mb-3"><span class="text-warning fw-bold me-2">@n.</span>@q.Text</h5>
+                    @{
+                        // Alternativas embaralhadas: a letra exibida segue a nova posição,
+                        // mas o valor enviado é a letra original (usada na correção).
+                        var shuffled = new[] { ("A", q.OptionA), ("B", q.OptionB), ("C", q.OptionC), ("D", q.OptionD) }
+                            .OrderBy(_ => Random.Shared.Next()).ToList();
+                        var letters = new[] { "A", "B", "C", "D" };
+                    }
+                    @for (int i = 0; i < shuffled.Count; i++)
+                    {
+                        var opt = shuffled[i];
+                        var inputId = $"q{q.Id}_{opt.Item1}";
+                        <input class="btn-check quiz-option" type="radio" name="answers[@q.Id]" id="@inputId" value="@opt.Item1" required />
+                        <label class="btn btn-outline-warning w-100 text-start mb-2 quiz-label" for="@inputId">
+                            <strong class="me-2">@letters[i])</strong>@opt.Item2
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="text-center mb-5">
+            <button id="btnSubmitQuiz" type="submit" class="btn btn-warning btn-lg fw-bold rounded-pill px-5">
+                <i class="bi bi-send-check-fill me-2"></i>Finalizar Prova
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .quiz-card { transition: transform .2s ease, box-shadow .2s ease; }
+    .quiz-card:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(255, 193, 7, .25) !important; }
+    .quiz-label { color: #f8f9fa; border-color: rgba(255, 193, 7, .45); transition: all .15s ease; }
+    .btn-check:checked + .quiz-label { background-color: #ffc107; color: #240B36; border-color: #ffc107; }
+</style>
+
+@section Scripts {
+    <script>
+        (function () {
+            const total = @questions.Count;
+            const form = document.getElementById('quizForm');
+            const bar = document.getElementById('quizProgress');
+            form.addEventListener('change', function () {
+                const answered = new Set([...form.querySelectorAll('.quiz-option:checked')].map(i => i.name)).size;
+                bar.style.width = (answered / total * 100) + '%';
+            });
+            form.addEventListener('submit', function (e) {
+                if (!confirm('Deseja realmente finalizar a prova?')) e.preventDefault();
+            });
+        })();
+    </script>
+}

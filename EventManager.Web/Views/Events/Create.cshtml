@@ -1,4 +1,4 @@
-﻿@model EventManager.Web.Models.Event
+@model EventManager.Web.Models.Event
 
 @{
     ViewData["Title"] = "Criar Novo Evento";
@@ -34,11 +34,6 @@
                         <label asp-for="WorkloadHours" class="form-label text-warning fw-bold"></label>
                         <input asp-for="WorkloadHours" class="form-control bg-dark text-light border-warning" />
                         <span asp-validation-for="WorkloadHours" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="TotalSlots" class="form-label text-warning fw-bold"></label>
-                        <input asp-for="TotalSlots" class="form-control bg-dark text-light border-warning" />
-                        <span asp-validation-for="TotalSlots" class="text-danger"></span>
                     </div>
                 </div>
 

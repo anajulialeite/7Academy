@@ -35,5 +35,7 @@ namespace EventManager.Web.Models
         public ApplicationUser? Organizer { get; set; }
 
         public ICollection<EventRegistration> Registrations { get; set; } = new List<EventRegistration>();
+
+        public ICollection<Question> Questions { get; set; } = new List<Question>();
     }
 }

@@ -1,0 +1,45 @@
+@model EventManager.Web.Models.EventRegistration
+@{
+    ViewData["Title"] = "Aguarde para nova tentativa";
+    var unlockAt = (DateTime)ViewBag.UnlockAt;
+    var remainingMs = Math.Max(0, (long)(unlockAt - DateTime.Now).TotalMilliseconds);
+}
+
+<div class="mx-auto text-center" style="max-width: 640px;">
+    <div class="card bg-dark-purple border-warning shadow p-4 p-md-5">
+        <i class="bi bi-hourglass-split text-warning" style="font-size: 3.5rem;"></i>
+        <h1 class="text-warning fw-bold mt-3 h2">Nova tentativa em breve</h1>
+        <p class="text-light mb-1">@Model.Event?.Title</p>
+        <p class="text-muted">Sua última nota foi <strong class="text-warning">@ViewBag.LastScore,0</strong>. A nota mínima é 7,0.</p>
+
+        <div id="countdown" class="display-3 fw-bold text-warning my-3" style="font-family: 'Montserrat', sans-serif;">--:--</div>
+
+        <p class="text-light opacity-75">Aproveite este intervalo para revisar o conteúdo do evento antes da sua próxima tentativa.</p>
+
+        <div class="d-flex gap-2 justify-content-center mt-3">
+            <a asp-controller="Events" asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill">Minhas Inscrições</a>
+            <a id="btnRetry" asp-action="Take" asp-route-id="@Model.Id" class="btn btn-warning fw-bold rounded-pill d-none">
+                <i class="bi bi-arrow-repeat me-1"></i>Fazer nova tentativa
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const end = Date.now() + @remainingMs;
+            const el = document.getElementById('countdown');
+            const btn = document.getElementById('btnRetry');
+            function tick() {
+                const left = Math.max(0, end - Date.now());
+                const m = String(Math.floor(left / 60000)).padStart(2, '0');
+                const s = String(Math.floor((left % 60000) / 1000)).padStart(2, '0');
+                el.textContent = m + ':' + s;
+                if (left <= 0) { btn.classList.remove('d-none'); el.textContent = 'Liberado!'; return; }
+                setTimeout(tick, 1000);
+            }
+            tick();
+        })();
+    </script>
+}

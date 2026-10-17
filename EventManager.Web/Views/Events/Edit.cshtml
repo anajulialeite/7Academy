@@ -1,4 +1,4 @@
-ï»¿@model EventManager.Web.Models.Event
+@model EventManager.Web.Models.Event
 
 @{
     ViewData["Title"] = "Editar Evento";
@@ -37,16 +37,11 @@
                             <input asp-for="WorkloadHours" class="form-control" type="number" min="1" />
                             <span asp-validation-for="WorkloadHours" class="text-danger"></span>
                         </div>
-                        <div class="col-md-4">
-                            <label asp-for="TotalSlots" class="form-label fw-bold text-secondary"></label>
-                            <input asp-for="TotalSlots" class="form-control" type="number" min="1" />
-                            <span asp-validation-for="TotalSlots" class="text-danger"></span>
-                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
                         <a asp-action="MyEvents" class="btn btn-outline-secondary">Cancelar</a>
-                        <input type="submit" value="Salvar AlteraÃ§Ãµes" class="btn btn-primary px-4" />
+                        <input type="submit" value="Salvar Alterações" class="btn btn-primary px-4" />
                     </div>
                 </form>
             </div>

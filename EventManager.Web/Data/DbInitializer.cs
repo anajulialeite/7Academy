@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using EventManager.Web.Models;
 
 namespace EventManager.Web.Data
@@ -21,13 +21,15 @@ namespace EventManager.Web.Data
             }
 
             
-            // D√° a permiss√£o de Organizador para a Ana Julia
+            // D· a permiss„o de Organizador para a Ana Julia
             var user = await userManager.FindByEmailAsync("anajulia_aninha2@hotmail.com");
             if (user != null && !await userManager.IsInRoleAsync(user, "Organizador"))
             {
                 await userManager.AddToRoleAsync(user, "Organizador");
             }
 
+            // Eventos oficiais + provas de certificacao
+            await QuizSeeder.SeedAsync(serviceProvider);
         }
     }
 }

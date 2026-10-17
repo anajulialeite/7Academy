@@ -1,0 +1,38 @@
+@model EventManager.Web.Models.EventRegistration
+@{
+    ViewData["Title"] = "Resultado da Prova";
+    bool passed = (bool)ViewBag.Passed;
+}
+
+<div class="mx-auto text-center" style="max-width: 640px;">
+    <div class="card bg-dark-purple border-warning shadow p-4 p-md-5">
+        @if (passed)
+        {
+            <i class="bi bi-trophy-fill text-warning" style="font-size: 4rem;"></i>
+            <h1 class="text-warning fw-bold mt-3 h2">Parabéns, você foi aprovada(o)!</h1>
+        }
+        else
+        {
+            <i class="bi bi-emoji-frown text-warning" style="font-size: 4rem;"></i>
+            <h1 class="text-warning fw-bold mt-3 h2">Não foi dessa vez</h1>
+        }
+
+        <p class="text-light mb-1">@Model.Event?.Title</p>
+
+        <div class="display-2 fw-bold text-warning my-3" style="font-family: 'Montserrat', sans-serif;">@ViewBag.Score,0</div>
+        <p class="text-light">Você acertou <strong class="text-warning">@ViewBag.Correct</strong> de <strong>@ViewBag.Total</strong> questões.</p>
+
+        @if (passed)
+        {
+            <p class="text-light opacity-75">Seu certificado oficial já está liberado.</p>
+            <a asp-controller="Events" asp-action="DownloadCertificate" asp-route-id="@Model.Id" class="btn btn-warning btn-lg fw-bold rounded-pill mt-2">
+                <i class="bi bi-file-earmark-pdf-fill me-2"></i>Baixar Certificado
+            </a>
+        }
+        else
+        {
+            <p class="text-light opacity-75">A nota mínima para certificação é 7,0. Você poderá tentar novamente em <strong class="text-warning">30 minutos</strong>, com as questões em nova ordem.</p>
+            <a asp-controller="Events" asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill mt-2">Voltar para Minhas Inscrições</a>
+        }
+    </div>
+</div>

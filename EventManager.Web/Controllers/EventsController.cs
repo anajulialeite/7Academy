@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -90,13 +90,7 @@ namespace EventManager.Web.Controllers
             
             if (@event.Registrations.Any(r => r.ParticipantId == userId))
             {
-                TempData["ErrorMessage"] = "Voc√™ j√° est√° inscrito neste evento.";
-                return RedirectToAction(nameof(Details), new { id = @event.Id });
-            }
-
-            if (@event.Registrations.Count >= @event.TotalSlots)
-            {
-                TempData["ErrorMessage"] = "Limite de vagas atingido para este evento.";
+                TempData["ErrorMessage"] = "VocÍ j· est· inscrito neste evento.";
                 return RedirectToAction(nameof(Details), new { id = @event.Id });
             }
 
@@ -111,7 +105,7 @@ namespace EventManager.Web.Controllers
             _context.EventRegistrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Inscri√ß√£o realizada com sucesso!";
+            TempData["SuccessMessage"] = "InscriÁ„o realizada com sucesso!";
             return RedirectToAction(nameof(Details), new { id = @event.Id });
         }
 
@@ -259,7 +253,7 @@ namespace EventManager.Web.Controllers
             
             if (!registration.IsPresenceConfirmed)
             {
-                TempData["ErrorMessage"] = "Seu certificado ainda n√£o est√° liberado. √â necess√°rio confirma√ß√£o de presen√ßa.";
+                TempData["ErrorMessage"] = "Seu certificado ainda n„o est· liberado. … necess·rio confirmaÁ„o de presenÁa.";
                 return RedirectToAction(nameof(MyRegistrations));
             }
 

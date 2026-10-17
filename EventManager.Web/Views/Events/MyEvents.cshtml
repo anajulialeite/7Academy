@@ -1,4 +1,4 @@
-ï»¿@model IEnumerable<EventManager.Web.Models.Event>
+@model IEnumerable<EventManager.Web.Models.Event>
 
 @{
     ViewData["Title"] = "Meus Eventos";
@@ -15,10 +15,10 @@
             <table class="table table-dark table-hover align-middle mb-0">
                 <thead class="text-warning border-bottom border-warning">
                     <tr>
-                        <th>TÃ­tulo</th>
+                        <th>Título</th>
                         <th>Data e Hora</th>
                         <th class="text-center">Vagas Preenchidas</th>
-                        <th class="text-end">AÃ§Ãµes</th>
+                        <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,8 +28,8 @@
                             <td class="text-light fw-bold">@item.Title</td>
                             <td class="text-light">@item.DateTime.ToString("dd/MM/yyyy HH:mm")</td>
                             <td class="text-center">
-                                <span class="badge @(item.Registrations.Count >= item.TotalSlots ? "bg-danger" : "bg-success") fs-6 border border-light">
-                                    @item.Registrations.Count / @item.TotalSlots
+                                <span class="badge bg-success fs-6 border border-light">
+                                    @item.Registrations.Count inscrito(s)
                                 </span>
                             </td>
                             <td class="text-end">
