@@ -1,4 +1,4 @@
-﻿using EventManager.Web.Models;
+using EventManager.Web.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -8,12 +8,12 @@ namespace EventManager.Web.Services
 {
     public class CertificateService
     {
-        public byte[] GenerateCertificate(EventRegistration registration)
+        public byte[] GenerateCertificate(EventRegistration registration, DateTime? issueDate = null)
         {
             var studentName = string.IsNullOrWhiteSpace(registration.Participant?.FullName) ? (registration.Participant?.Email ?? "Aluno") : registration.Participant.FullName;
             var eventTitle = registration.Event?.Title ?? "Evento";
             var workload = registration.Event?.WorkloadHours ?? 0;
-            var date = registration.Event?.DateTime.ToString("dd 'de' MMMM 'de' yyyy") ?? DateTime.Now.ToString("dd 'de' MMMM 'de' yyyy");
+            var date = (issueDate ?? DateTime.Now).ToString("dd 'de' MMMM 'de' yyyy");
             var grade = registration.Rating ?? 10;
             
             var percentage = grade * 10;
