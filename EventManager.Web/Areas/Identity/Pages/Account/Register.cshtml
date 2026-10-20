@@ -1,4 +1,4 @@
-ï»¿@page
+@page
 @model RegisterModel
 
 @{
@@ -9,8 +9,8 @@
     
     <div class="col-md-5 d-none d-md-block text-center">
         <div class="p-4 bg-dark-purple rounded-4 border border-warning shadow-lg">
-            <h3 class="text-warning mb-3">Junte-se Ã  7Academy</h3>
-            <p class="text-light mb-4">Crie sua conta agora mesmo para se inscrever nos melhores eventos acadÃªmicos, garantir sua vaga e receber seus certificados digitais vÃ¡lidos.</p>
+            <h3 class="text-warning mb-3">Junte-se à 7Academy</h3>
+            <p class="text-light mb-4">Crie sua conta agora mesmo para se inscrever nos melhores eventos acadêmicos, garantir sua vaga e receber seus certificados digitais válidos.</p>
             <i class="bi bi-mortarboard" style="font-size: 8rem; color: #D4AF37;"></i>
         </div>
     </div>
@@ -24,6 +24,12 @@
                 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
                     
+                    <div class="form-floating mb-4 text-dark">
+                        <input asp-for="Input.FullName" class="form-control" autocomplete="name" aria-required="true" placeholder="Nome completo" style="background-color: #fff; color: #333;" />
+                        <label asp-for="Input.FullName" class="form-label text-muted">Nome Completo</label>
+                        <span asp-validation-for="Input.FullName" class="text-warning fw-bold"></span>
+                    </div>
+
                     <div class="form-floating mb-4 text-dark">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="background-color: #fff; color: #333;" />
                         <label asp-for="Input.Email" class="form-label text-muted">E-mail</label>
@@ -48,7 +54,7 @@
                     
                     <div class="text-center mt-4">
                         <p class="mb-2">
-                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-warning text-decoration-none">JÃ¡ tem uma conta? FaÃ§a login</a>
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-warning text-decoration-none">Já tem uma conta? Faça login</a>
                         </p>
                     </div>
                 </form>

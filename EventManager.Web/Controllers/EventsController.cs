@@ -257,8 +257,15 @@ namespace EventManager.Web.Controllers
                 return RedirectToAction(nameof(MyRegistrations));
             }
 
+            if (string.IsNullOrWhiteSpace(registration.Participant?.FullName))
+            {
+                TempData["ErrorMessage"] = "Para emitir o certificado, informe seu nome completo no perfil.";
+                return Redirect("/Identity/Account/Manage");
+            }
+
             try {
-                var pdfBytes = certificateService.GenerateCertificate(registration);
+                var approvalDate = await _context.QuizAttempts.Where(a => a.EventRegistrationId == registration.Id && a.Passed).OrderBy(a => a.AttemptDate).Select(a => (DateTime?)a.AttemptDate).FirstOrDefaultAsync();
+                var pdfBytes = certificateService.GenerateCertificate(registration, approvalDate);
                 return File(pdfBytes, "application/pdf", $"Certificado_{registration.Event?.Title}.pdf");
             } catch (System.Exception ex) {
                 TempData["ErrorMessage"] = "Erro gerando PDF: " + ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : "");
@@ -276,7 +283,15 @@ namespace EventManager.Web.Controllers
                 .Where(r => r.ParticipantId == userId)
                 .OrderByDescending(r => r.RegistrationDate)
                 .ToListAsync();
-                
+
+            // Historico de notas (tentativas de prova) de cada inscricao
+            var regIds = registrations.Select(r => r.Id).ToList();
+            var attempts = await _context.QuizAttempts
+                .Where(a => regIds.Contains(a.EventRegistrationId))
+                .OrderByDescending(a => a.AttemptDate)
+                .ToListAsync();
+            ViewBag.Attempts = attempts.GroupBy(a => a.EventRegistrationId).ToDictionary(g => g.Key, g => g.ToList());
+
             return View(registrations);
         }
     }

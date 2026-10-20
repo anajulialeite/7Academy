@@ -1,5 +1,5 @@
-Ôªø// Licenciado sob as regras da .NET Foundation.
-// Distribu√≠do com a licen√ßa MIT.
+// Licenciado sob as regras da .NET Foundation.
+// DistribuÌdo com a licenÁa MIT.
 #nullable disable
 
 using System;
@@ -75,6 +75,11 @@ namespace EventManager.Web.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required(ErrorMessage = "Informe seu nome completo.")]
+            [StringLength(100, MinimumLength = 5, ErrorMessage = "Informe seu nome completo (nome e sobrenome).")]
+            [Display(Name = "Nome Completo")]
+            public string FullName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -114,6 +119,7 @@ namespace EventManager.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FullName = Input.FullName.Trim();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -151,7 +157,7 @@ namespace EventManager.Web.Areas.Identity.Pages.Account
                 }
             }
 
-            // Se a execu√ß√£o chegou at√© aqui, ocorreu uma falha; exibe o formul√°rio novamente
+            // Se a execuÁ„o chegou atÈ aqui, ocorreu uma falha; exibe o formul·rio novamente
             return Page();
         }
 
