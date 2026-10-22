@@ -1,4 +1,4 @@
-@model EventManager.Web.Models.EventRegistration
+﻿@model EventManager.Web.Models.EventRegistration
 @{
     ViewData["Title"] = "Prova de Certificação";
     var questions = (List<EventManager.Web.Models.Question>)ViewBag.Questions;
@@ -9,6 +9,7 @@
     <div class="text-center mb-4">
         <span class="badge bg-warning text-dark mb-2 px-3 py-2"><i class="bi bi-mortarboard-fill me-1"></i>Prova de Certificação</span>
         <h1 class="text-warning fw-bold">@Model.Event?.Title</h1>
+        <a asp-action="Material" asp-route-id="@Model.Id" target="_blank" class="btn btn-outline-warning btn-sm rounded-pill mb-2"><i class="bi bi-book-fill me-1"></i>Abrir material de estudo (PDF)</a>
         <p class="text-light opacity-75 mb-0">
             @questions.Count questões &bull; Nota mínima para aprovação: <strong class="text-warning">7,0</strong>
         </p>
