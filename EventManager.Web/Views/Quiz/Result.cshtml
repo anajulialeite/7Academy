@@ -1,4 +1,4 @@
-@model EventManager.Web.Models.EventRegistration
+﻿@model EventManager.Web.Models.EventRegistration
 @{
     ViewData["Title"] = "Resultado da Prova";
     bool passed = (bool)ViewBag.Passed;
@@ -31,8 +31,19 @@
         }
         else
         {
+            @if ((bool)ViewBag.AlreadyApproved)
+            {
+                <p class="text-light opacity-75">Sua aprovação anterior continua válida e seu certificado segue liberado. Você pode tentar de novo quando quiser.</p>
+                <div class="d-flex gap-2 justify-content-center mt-2">
+                    <a asp-action="Take" asp-route-id="@Model.Id" class="btn btn-warning fw-bold rounded-pill">Refazer prova</a>
+                    <a asp-controller="Events" asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill">Minhas Inscrições</a>
+                </div>
+            }
+            else
+            {
             <p class="text-light opacity-75">A nota mínima para certificação é 7,0. Você poderá tentar novamente em <strong class="text-warning">30 minutos</strong>, com as questões em nova ordem.</p>
             <a asp-controller="Events" asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill mt-2">Voltar para Minhas Inscrições</a>
+            }
         }
     </div>
 </div>

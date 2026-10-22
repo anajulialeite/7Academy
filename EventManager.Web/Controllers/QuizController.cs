@@ -1,4 +1,4 @@
-using EventManager.Web.Data;
+﻿using EventManager.Web.Data;
 using EventManager.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,17 +32,30 @@ namespace EventManager.Web.Controllers
                 .FirstOrDefaultAsync(r => r.Id == registrationId && r.ParticipantId == userId);
         }
 
+        // GET: Quiz/Material/5  (5 = id da inscricao) - PDF de estudo do curso
+        public async Task<IActionResult> Material(int id, [FromServices] EventManager.Web.Services.StudyMaterialService materialService)
+        {
+            var registration = await GetOwnRegistrationAsync(id);
+            if (registration?.Event == null) return NotFound();
+
+            var pdf = materialService.Generate(registration.Event);
+            if (pdf == null)
+            {
+                TempData["ErrorMessage"] = "Este curso ainda n\u00e3o possui material de estudo.";
+                return RedirectToAction("MyRegistrations", "Events");
+            }
+
+            return File(pdf, "application/pdf");
+        }
+
         // GET: Quiz/Take/5  (5 = id da inscrição)
         public async Task<IActionResult> Take(int id)
         {
             var registration = await GetOwnRegistrationAsync(id);
             if (registration == null) return NotFound();
 
-            if (registration.Rating >= PassingScore)
-            {
-                TempData["SuccessMessage"] = "Você já foi aprovada(o) nesta prova. Seu certificado está liberado!";
-                return RedirectToAction("MyRegistrations", "Events");
-            }
+            // Quem já foi aprovado pode refazer a prova quantas vezes quiser, sem tempo de espera
+            bool alreadyApproved = registration.Rating >= PassingScore;
 
             var questions = registration.Event!.Questions.ToList();
             if (questions.Count == 0)
@@ -57,7 +70,7 @@ namespace EventManager.Web.Controllers
                 .OrderByDescending(a => a.AttemptDate)
                 .FirstOrDefaultAsync();
 
-            if (lastAttempt != null && !lastAttempt.Passed)
+            if (!alreadyApproved && lastAttempt != null && !lastAttempt.Passed)
             {
                 var unlockAt = lastAttempt.AttemptDate.Add(Cooldown);
                 if (DateTime.Now < unlockAt)
@@ -86,8 +99,8 @@ namespace EventManager.Web.Controllers
                 .Where(a => a.EventRegistrationId == id)
                 .OrderByDescending(a => a.AttemptDate)
                 .FirstOrDefaultAsync();
-            if (registration.Rating >= PassingScore ||
-                (lastAttempt != null && !lastAttempt.Passed && DateTime.Now < lastAttempt.AttemptDate.Add(Cooldown)))
+            bool wasApproved = registration.Rating >= PassingScore;
+            if (!wasApproved && lastAttempt != null && !lastAttempt.Passed && DateTime.Now < lastAttempt.AttemptDate.Add(Cooldown))
             {
                 return RedirectToAction(nameof(Take), new { id });
             }
@@ -116,6 +129,7 @@ namespace EventManager.Web.Controllers
             ViewBag.Correct = correct;
             ViewBag.Total = questions.Count;
             ViewBag.Passed = passed;
+            ViewBag.AlreadyApproved = wasApproved;
             ViewBag.UnlockAt = DateTime.Now.Add(Cooldown);
             return View("Result", registration);
         }
