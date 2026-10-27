@@ -1,4 +1,4 @@
-﻿@page
+@page
 @{
     ViewData["Title"] = "Dados Pessoais";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
@@ -13,7 +13,8 @@
             <strong>A exclusão desses dados removerá permanentemente sua conta e não poderá ser recuperada.</strong>
         </p>
         <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-warning mb-3 fw-bold" type="submit">Baixar meus dados</button>
+            <button class="btn btn-warning mb-3 fw-bold" type="submit"><i class="bi bi-download me-1"></i>Baixar meus dados</button>
         </form>
+        <a asp-page="DeletePersonalData" class="btn btn-danger fw-bold"><i class="bi bi-trash-fill me-1"></i>Excluir minha conta</a>
     </div>
 </div>

@@ -1,0 +1,51 @@
+@page
+@model DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Excluir minha conta";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3 class="text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="alert alert-danger" role="alert">
+            <p class="mb-1"><strong>Atenção: esta ação é permanente e não pode ser desfeita.</strong></p>
+            <p class="mb-0">Serão excluídos sua conta, suas inscrições em cursos, seu histórico de notas e o acesso aos certificados.
+                Recomendamos <strong>baixar seus dados e certificados</strong> antes de continuar.</p>
+        </div>
+
+        @if (Model.OwnsEvents)
+        {
+            <div class="alert alert-warning">
+                Você é organizador(a) de eventos na plataforma. Exclua ou transfira seus eventos antes de excluir a conta.
+            </div>
+            <a asp-page="PersonalData" class="btn btn-outline-warning">Voltar</a>
+        }
+        else
+        {
+            <form id="delete-user" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+                @if (Model.RequirePassword)
+                {
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control bg-dark text-light border-danger" autocomplete="current-password" aria-required="true" placeholder="Digite sua senha" />
+                        <label asp-for="Input.Password" class="form-label">Confirme sua senha</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                }
+                <div class="d-flex gap-2">
+                    <button class="btn btn-danger fw-bold" type="submit"
+                            onclick="return confirm('Tem certeza que deseja excluir sua conta definitivamente?');">
+                        <i class="bi bi-trash-fill me-1"></i>Excluir minha conta definitivamente
+                    </button>
+                    <a asp-page="PersonalData" class="btn btn-outline-light">Cancelar</a>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
