@@ -70,6 +70,12 @@ EventManager.Web/
 
 O `ApplicationDbContext` utiliza o ASP.NET Core Identity como base para o gerenciamento dos usuários e da autenticação.
 
+### Banco de Dados (Entity Framework Code-First + Script SQL)
+
+O banco de dados foi construído utilizando a abordagem **Code-First** do **Entity Framework Core**: as tabelas, relacionamentos e restrições são definidos diretamente pelas classes em `Models` e mapeados pelo `ApplicationDbContext`, permitindo criar e atualizar o banco automaticamente via **Migrations** sem precisar escrever SQL manualmente.
+
+Ainda assim, por **segurança, documentação e contingência**, o projeto disponibiliza o script completo do SQL Server em [`docs/BancoDeDados_Script.sql`](./docs/BancoDeDados_Script.sql). Dessa forma, a estrutura física das tabelas pode ser consultada diretamente para avaliação acadêmica ou executada manualmente no SQL Server Management Studio (SSMS) caso o ambiente não possua a ferramenta `dotnet-ef`.
+
 ## Perfis de Usuário
 
 O sistema possui dois perfis principais, controlados através de **Roles** do ASP.NET Core Identity.
@@ -159,11 +165,13 @@ Os formulários utilizam proteção **Anti-Forgery Token** e a exclusão de cont
    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=aspnet-EventManager.Web;Trusted_Connection=True;MultipleActiveResultSets=true"
    ```
 
-4. Crie o banco de dados aplicando as migrations:
+4. Crie o banco de dados aplicando as migrations do Entity Framework:
 
    ```bash
    dotnet ef database update
    ```
+
+   > **Alternativa (por segurança):** caso não tenha o `dotnet-ef` instalado ou prefira criar as tabelas manualmente no SQL Server / SSMS, basta executar o script [`docs/BancoDeDados_Script.sql`](./docs/BancoDeDados_Script.sql).
 
 5. Execute a aplicação:
 
@@ -171,7 +179,7 @@ Os formulários utilizam proteção **Anti-Forgery Token** e a exclusão de cont
    dotnet run
    ```
 
-6. Acesse no navegador o endereço exibido no terminal (ex.: `https://localhost:7119`).
+6. Acesse no navegador o endereço exibido no terminal (ex.: `http://localhost:5211`).
 
 Na primeira execução, o sistema cria automaticamente os perfis **Organizador** e **Participante**. Os **7 cursos oficiais e as 70 questões** são cadastrados assim que existir um usuário com o perfil de Organizador.
 
@@ -180,6 +188,7 @@ Na primeira execução, o sistema cria automaticamente os perfis **Organizador**
 A documentação técnica e acadêmica do projeto está disponível na pasta [`docs`](./docs).
 
 * [Resultado 1 — Análise, Modelagem e Estrutura do 7Academy](docs/Cronograma_Estagio_assinado.pdf)
+* [Script SQL Server do Banco de Dados (`BancoDeDados_Script.sql`)](docs/BancoDeDados_Script.sql)
 
 A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento, incluindo o Relatório de Testes e Homologação.
 
