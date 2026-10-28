@@ -15,10 +15,6 @@ O **7Academy** é uma plataforma web de capacitação e gestão de eventos acad�
 
 O projeto centraliza em uma única aplicação todo o fluxo de participação — da divulgação do curso à emissão do certificado — substituindo processos manuais como listas de presença impressas, correção de provas em papel e certificados preenchidos à mão.
 
-## Sobre o Projeto
-
-O 7Academy foi desenvolvido durante o **Estágio Supervisionado III**, com o objetivo de aplicar na prática os conceitos de desenvolvimento web com C# e ASP.NET Core MVC, banco de dados relacional, autenticação de usuários e geração de documentos em PDF.
-
 **Fluxo do aluno:**
 
 ```
