@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+Ôªøusing Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -90,7 +90,7 @@ namespace EventManager.Web.Controllers
             
             if (@event.Registrations.Any(r => r.ParticipantId == userId))
             {
-                TempData["ErrorMessage"] = "VocÍ j· est· inscrito neste evento.";
+                TempData["ErrorMessage"] = "Voc√™ j√° est√° inscrito neste evento.";
                 return RedirectToAction(nameof(Details), new { id = @event.Id });
             }
 
@@ -105,7 +105,7 @@ namespace EventManager.Web.Controllers
             _context.EventRegistrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "InscriÁ„o realizada com sucesso!";
+            TempData["SuccessMessage"] = "Inscri√ß√£o realizada com sucesso!";
             return RedirectToAction(nameof(Details), new { id = @event.Id });
         }
 
@@ -236,7 +236,7 @@ namespace EventManager.Web.Controllers
             _context.Update(registration);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = $"DEBUG: eventId={eventId} regId={registrationId} formPresence={Request.Form["isPresenceConfirmed"]} boolValue={presenceValue.Contains("true")} formRating={Request.Form["rating"]}";
+            TempData["SuccessMessage"] = "Presen√ßa e nota atualizadas com sucesso!";
             return RedirectToAction(nameof(ManageParticipants), new { id = eventId });
         }
 
@@ -253,7 +253,7 @@ namespace EventManager.Web.Controllers
             
             if (!registration.IsPresenceConfirmed)
             {
-                TempData["ErrorMessage"] = "Seu certificado ainda n„o est· liberado. … necess·rio confirmaÁ„o de presenÁa.";
+                TempData["ErrorMessage"] = "Seu certificado ainda n√£o est√° liberado. √â necess√°rio confirma√ß√£o de presen√ßa.";
                 return RedirectToAction(nameof(MyRegistrations));
             }
 
