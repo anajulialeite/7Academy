@@ -11,31 +11,44 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" align="left" width="50" height="50" />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" align="center" width="50" height="50" />
 
-O **7Academy** é um sistema web desenvolvido para gerenciamento de eventos acadêmicos, permitindo organizar eventos, controlar inscrições e presença dos participantes e automatizar a emissão de certificados.
+O **7Academy** é uma plataforma web de capacitação e gestão de eventos acadêmicos. O aluno se inscreve em um curso, estuda pelo material em PDF, realiza uma prova online com correção automática e, ao ser aprovado, emite seu certificado na hora.
 
-O projeto centraliza em uma única aplicação o fluxo de participação em eventos acadêmicos, desde a criação e divulgação do evento até o check-in e a emissão do certificado, substituindo processos manuais como listas de presença impressas e formulários separados.
+O projeto centraliza em uma única aplicação todo o fluxo de participação — da divulgação do curso à emissão do certificado — substituindo processos manuais como listas de presença impressas, correção de provas em papel e certificados preenchidos à mão.
+
+## Sobre o Projeto
+
+O 7Academy foi desenvolvido durante o **Estágio Supervisionado III**, com o objetivo de aplicar na prática os conceitos de desenvolvimento web com C# e ASP.NET Core MVC, banco de dados relacional, autenticação de usuários e geração de documentos em PDF.
+
+**Fluxo do aluno:**
+
+```
+Inscrição no curso  →  Material de estudo (PDF)  →  Prova online  →  Nota ≥ 7,0  →  Certificado (PDF)
+```
 
 ## Principais Funcionalidades
 
-* Cadastro e autenticação de usuários.
+* Cadastro de usuários com **nome completo**, e-mail e senha.
 * Controle de acesso por perfil de **Organizador** e **Participante**.
-* Criação, edição, visualização e exclusão de eventos acadêmicos.
-* Definição de data, horário, carga horária e limite de vagas.
-* Visualização dos eventos disponíveis.
-* Inscrição de participantes em eventos com controle automático de vagas.
-* Bloqueio de inscrições duplicadas no mesmo evento.
-* Check-in e confirmação de presença pelos organizadores.
-* Histórico de eventos e participações do usuário.
-* Emissão de certificados em PDF para participantes com presença confirmada.
-* Geração de código único de validação para cada certificado.
-* Página pública para consulta e validação da autenticidade dos certificados.
+* Criação, edição, visualização e exclusão de cursos e eventos.
+* **Catálogo oficial com 7 cursos** de 20 horas cada: Java + POO, C# e .NET + POO, Python + POO, HTML5/CSS3/JavaScript, Microsoft SQL Server, Git e GitHub e Inteligência Artificial.
+* Inscrições sem limite de vagas, com bloqueio de inscrição duplicada.
+* **Material de estudo em PDF** para cada curso, com explicações, exemplos de código e resumo para a prova.
+* **Prova online** com 10 questões por curso (70 no total) e **correção automática**.
+* **Questões e alternativas embaralhadas** a cada tentativa.
+* **Tempo de espera de 30 minutos** para nova tentativa após reprovação.
+* Alunos aprovados podem refazer a prova quando quiserem, mantendo sempre a maior nota.
+* **Histórico de notas** com data, nota e resultado de cada tentativa.
+* **Certificado em PDF** gerado automaticamente com nome completo, curso, carga horária, nota e data da aprovação.
+* Gerenciamento de presença e notas pelo organizador.
+* Painel de perfil traduzido para português, com **download e exclusão dos dados pessoais (LGPD)**.
 
 ## Tecnologias Utilizadas
 
-* **Back-end:** C#, ASP.NET Core MVC, Entity Framework Core
-* **Front-end:** HTML5, CSS3, Bootstrap
-* **Banco de Dados:** Microsoft SQL Server
+* **Back-end:** C#, .NET 8, ASP.NET Core MVC, Entity Framework Core
+* **Front-end:** HTML5, CSS3, JavaScript, Bootstrap 5 e Bootstrap Icons
+* **Banco de Dados:** Microsoft SQL Server (LocalDB)
 * **Autenticação e Autorização:** ASP.NET Core Identity e Roles
+* **Geração de PDF:** QuestPDF (fontes Montserrat e Dancing Script)
 * **Arquitetura:** MVC (Model-View-Controller)
 * **Controle de Versão:** Git e GitHub
 
@@ -43,15 +56,19 @@ O projeto centraliza em uma única aplicação o fluxo de participação em even
 
 O 7Academy utiliza o padrão **MVC (Model-View-Controller)** para manter as responsabilidades da aplicação organizadas e facilitar sua manutenção e evolução.
 
-A estrutura principal é dividida em:
+```
+EventManager.Web/
+├── Controllers/   → EventsController (eventos e inscrições) e QuizController (provas e materiais)
+├── Models/        → ApplicationUser, Event, EventRegistration, Question, QuizAttempt
+├── Views/         → Telas Razor (.cshtml) no tema roxo e dourado da 7Academy
+├── Services/      → CertificateService, StudyMaterialService e StudyContent (geração de PDFs)
+├── Data/          → ApplicationDbContext, DbInitializer e QuizSeeder (cursos e questões)
+├── Migrations/    → Histórico de alterações do banco de dados
+├── Areas/Identity → Páginas de login, cadastro e perfil (ASP.NET Core Identity)
+└── wwwroot/       → CSS, JavaScript, imagens e fontes
+```
 
-* **Models:** entidades e modelos utilizados pela aplicação.
-* **Views:** interfaces responsáveis pela interação com o usuário.
-* **Controllers:** responsáveis pela comunicação entre as Views, regras da aplicação e dados.
-* **Services:** concentração das regras de negócio que exigem tratamento específico, como controle de vagas e geração de certificados.
-* **Data:** configuração do contexto e acesso aos dados utilizando Entity Framework Core.
-
-O `ApplicationDbContext` utiliza o ASP.NET Core Identity como base para gerenciamento dos usuários e autenticação da aplicação.
+O `ApplicationDbContext` utiliza o ASP.NET Core Identity como base para o gerenciamento dos usuários e da autenticação.
 
 ## Perfis de Usuário
 
@@ -59,57 +76,104 @@ O sistema possui dois perfis principais, controlados através de **Roles** do AS
 
 ### Organizador
 
-Representa professores e membros da coordenação responsáveis pela organização dos eventos.
+Representa professores e membros da coordenação responsáveis pelos cursos.
 
 Pode:
 
-* Criar e gerenciar eventos.
-* Definir quantidade de vagas.
-* Acompanhar participantes inscritos.
-* Realizar o check-in e confirmar a presença dos participantes.
+* Criar, editar e excluir cursos e eventos.
+* Acompanhar os participantes inscritos.
+* Confirmar presença e consultar ou ajustar notas.
 
 ### Participante
 
-Representa os alunos que participam dos eventos acadêmicos.
+Representa os alunos da plataforma.
 
 Pode:
 
-* Visualizar os eventos disponíveis.
-* Realizar inscrições.
-* Consultar seu histórico de participação.
-* Emitir certificados quando sua presença estiver confirmada.
+* Visualizar os cursos disponíveis e se inscrever.
+* Baixar o material de estudo em PDF.
+* Realizar a prova online e consultar o histórico de notas.
+* Emitir o próprio certificado após a aprovação.
+* Baixar ou excluir seus dados pessoais.
 
-## Certificados
+## Prova e Certificados
 
-Os certificados são disponibilizados somente para participantes que tiveram sua presença confirmada pelo organizador do evento.
+* Cada curso possui **10 questões de múltipla escolha**.
+* A nota é calculada automaticamente de **0 a 10**, proporcional aos acertos.
+* Com nota **igual ou superior a 7,0**, a presença é confirmada e o certificado é liberado imediatamente.
+* Com nota **inferior a 7,0**, o aluno aguarda **30 minutos** para tentar novamente, com as questões em nova ordem.
 
-Cada certificado contém informações como:
+O certificado é gerado em **PDF (A4 paisagem, página única)** e contém:
 
-* Nome do participante.
-* Nome do evento.
-* Data do evento.
-* Carga horária.
-* Data de emissão.
-* Código único de validação.
+* Nome completo do participante.
+* Nome do curso e carga horária.
+* Nota obtida e percentual de aproveitamento.
+* Data da aprovação como data de emissão.
+* Assinatura da Diretora Acadêmica e Selo Dourado 7Academy.
 
-O sistema também possui uma página pública para consulta desse código, permitindo que terceiros verifiquem a autenticidade do certificado sem necessidade de login.
+Alunos com **nota 10** recebem o **Certificado Purple Master**; os demais aprovados recebem o **Certificado Oficial**.
 
 ## Regras de Negócio
 
-Algumas das principais regras implementadas no sistema são:
-
-* Um participante não pode se inscrever duas vezes no mesmo evento.
-* Novas inscrições são bloqueadas quando o limite de vagas é atingido.
-* Apenas organizadores podem criar e gerenciar eventos ou confirmar presença.
-* Participantes podem emitir somente os próprios certificados.
-* Um certificado só pode ser emitido após a confirmação da presença.
-* Cada certificado possui um código único para validação de autenticidade.
+* Um participante não pode se inscrever duas vezes no mesmo curso.
+* Apenas organizadores podem criar e gerenciar cursos ou confirmar presença.
+* A nota mínima para aprovação é **7,0**.
+* Após uma reprovação, a nova tentativa só é liberada depois de **30 minutos** (regra validada também no servidor).
+* É mantida sempre a **maior nota** obtida pelo aluno.
+* O certificado só é emitido para alunos aprovados e com **nome completo** cadastrado.
+* Participantes acessam somente os próprios materiais, provas e certificados.
+* Organizadores com cursos cadastrados não podem excluir a conta sem antes remover ou transferir seus cursos.
 
 ## Segurança
 
-A autenticação e autorização dos usuários são realizadas através do **ASP.NET Core Identity**, responsável pelo gerenciamento seguro das contas, armazenamento protegido das senhas e controle de acesso baseado em Roles.
+A autenticação e a autorização são realizadas pelo **ASP.NET Core Identity**, responsável pelo gerenciamento seguro das contas, armazenamento protegido das senhas (hash) e controle de acesso baseado em Roles.
 
-Informações sensíveis e credenciais utilizadas durante o desenvolvimento não são armazenadas diretamente no código-fonte ou versionadas no repositório.
+Os formulários utilizam proteção **Anti-Forgery Token** e a exclusão de conta exige a **confirmação da senha**. Informações sensíveis e credenciais não são armazenadas diretamente no código-fonte nem versionadas no repositório.
+
+## Como Executar
+
+### Pré-requisitos
+
+* [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* Microsoft SQL Server ou **SQL Server LocalDB** (instalado junto com o Visual Studio)
+* Visual Studio 2022 ou superior (recomendado) ou VS Code
+* Ferramenta do Entity Framework: `dotnet tool install --global dotnet-ef`
+
+### Passo a passo
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/anajulialeite/7Academy.git
+   ```
+
+2. Acesse a pasta do projeto web:
+
+   ```bash
+   cd 7Academy/EventManager.Web
+   ```
+
+3. Confira a string de conexão em `appsettings.json` (por padrão, usa o LocalDB):
+
+   ```json
+   "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=aspnet-EventManager.Web;Trusted_Connection=True;MultipleActiveResultSets=true"
+   ```
+
+4. Crie o banco de dados aplicando as migrations:
+
+   ```bash
+   dotnet ef database update
+   ```
+
+5. Execute a aplicação:
+
+   ```bash
+   dotnet run
+   ```
+
+6. Acesse no navegador o endereço exibido no terminal (ex.: `https://localhost:7119`).
+
+Na primeira execução, o sistema cria automaticamente os perfis **Organizador** e **Participante**. Os **7 cursos oficiais e as 70 questões** são cadastrados assim que existir um usuário com o perfil de Organizador.
 
 ## Documentação
 
@@ -117,13 +181,7 @@ A documentação técnica e acadêmica do projeto está disponível na pasta [`d
 
 * [Resultado 1 — Análise, Modelagem e Estrutura do 7Academy](docs/Cronograma_Estagio_assinado.pdf)
 
-A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento.
-
-## Status do Projeto
-
-**Em desenvolvimento.**
-
-O 7Academy está sendo desenvolvido de forma incremental durante o **Estágio Supervisionado III**, com novas funcionalidades, testes e documentação sendo adicionados conforme a evolução do projeto.
+A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento, incluindo o Relatório de Testes e Homologação.
 
 ## Autora
 
