@@ -1,4 +1,4 @@
-@model EventManager.Web.Models.Event
+ï»¿@model EventManager.Web.Models.Event
 
 @{
     ViewData["Title"] = "Detalhes do Evento";
@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <p><i class="bi bi-calendar-event text-warning me-2"></i><strong>Data e Hora:</strong> @Model.DateTime.ToString("dd/MM/yyyy HH:mm")</p>
-                    <p><i class="bi bi-clock-history text-warning me-2"></i><strong>Carga Horária:</strong> @Model.WorkloadHours horas</p>
+                    <p><i class="bi bi-clock-history text-warning me-2"></i><strong>Carga HorÃ¡ria:</strong> @Model.WorkloadHours horas</p>
                 </div>
                 <div class="col-md-6 mb-3">
                     <p><i class="bi bi-person-badge text-warning me-2"></i><strong>Organizador:</strong> @(string.IsNullOrEmpty(Model.Organizer?.FullName) ? Model.Organizer?.UserName : Model.Organizer?.FullName)</p>
@@ -35,8 +35,8 @@
 
                 @if (ViewBag.IsRegistered == true)
                 {
-                    <button class="btn btn-success fw-bold rounded-pill disabled"><i class="bi bi-check-circle-fill me-1"></i> Inscrição Confirmada</button>
-                    <a asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill ms-2">Ver Minhas Inscrições</a>
+                    <button class="btn btn-success fw-bold rounded-pill disabled"><i class="bi bi-check-circle-fill me-1"></i> InscriÃ§Ã£o Confirmada</button>
+                    <a asp-action="MyRegistrations" class="btn btn-outline-warning rounded-pill ms-2">Ver Minhas InscriÃ§Ãµes</a>
                 }
                 else
                 {
