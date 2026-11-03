@@ -1,5 +1,5 @@
-// Licenciado sob as regras da .NET Foundation.
-// DistribuÌdo com a licenÁa MIT.
+Ôªø// Licenciado sob as regras da .NET Foundation.
+// Distribu√≠do com a licen√ßa MIT.
 #nullable disable
 
 using System;
@@ -157,7 +157,7 @@ namespace EventManager.Web.Areas.Identity.Pages.Account
                 }
             }
 
-            // Se a execuÁ„o chegou atÈ aqui, ocorreu uma falha; exibe o formul·rio novamente
+            // Se a execu√ß√£o chegou at√© aqui, ocorreu uma falha; exibe o formul√°rio novamente
             return Page();
         }
 
