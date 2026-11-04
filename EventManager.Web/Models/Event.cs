@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,11 +10,11 @@ namespace EventManager.Web.Models
 
         [Required]
         [StringLength(200)]
-        [Display(Name = "TÌtulo")]
+        [Display(Name = "T√≠tulo")]
         public string Title { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "DescriÁ„o")]
+        [Display(Name = "Descri√ß√£o")]
         public string Description { get; set; } = string.Empty;
 
         [Required]
@@ -22,7 +22,7 @@ namespace EventManager.Web.Models
         public DateTime DateTime { get; set; }
 
         [Required]
-        [Display(Name = "Carga Hor·ria (em horas)")]
+        [Display(Name = "Carga Hor√°ria (em horas)")]
         public int WorkloadHours { get; set; }
 
         [Required]
