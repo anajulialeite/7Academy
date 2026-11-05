@@ -1,4 +1,4 @@
-﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
@@ -149,3 +149,62 @@ INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20260915042033_InitialCreate', N'8.0.31');
 GO
 
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [EventRegistrations] ADD [Feedback] nvarchar(500) NULL;
+GO
+
+ALTER TABLE [EventRegistrations] ADD [Rating] int NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260930045541_AddEvaluations', N'8.0.31');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [Questions] (
+    [Id] int NOT NULL IDENTITY,
+    [EventId] int NOT NULL,
+    [Text] nvarchar(max) NOT NULL,
+    [OptionA] nvarchar(max) NOT NULL,
+    [OptionB] nvarchar(max) NOT NULL,
+    [OptionC] nvarchar(max) NOT NULL,
+    [OptionD] nvarchar(max) NOT NULL,
+    [CorrectOption] nvarchar(1) NOT NULL,
+    CONSTRAINT [PK_Questions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Questions_Events_EventId] FOREIGN KEY ([EventId]) REFERENCES [Events] ([Id]) ON DELETE CASCADE
+);
+GO
+
+CREATE TABLE [QuizAttempts] (
+    [Id] int NOT NULL IDENTITY,
+    [EventRegistrationId] int NOT NULL,
+    [Score] int NOT NULL,
+    [Passed] bit NOT NULL,
+    [AttemptDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_QuizAttempts] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_QuizAttempts_EventRegistrations_EventRegistrationId] FOREIGN KEY ([EventRegistrationId]) REFERENCES [EventRegistrations] ([Id]) ON DELETE CASCADE
+);
+GO
+
+CREATE INDEX [IX_Questions_EventId] ON [Questions] ([EventId]);
+GO
+
+CREATE INDEX [IX_QuizAttempts_EventRegistrationId] ON [QuizAttempts] ([EventRegistrationId]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20261016160610_AddQuizSystem', N'8.0.31');
+GO
+
+COMMIT;
+GO
