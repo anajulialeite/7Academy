@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+Ôªøusing Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EventManager.Web.Data;
 using EventManager.Web.Models;
@@ -9,7 +9,7 @@ QuestPDF.Settings.UseSystemFonts = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Fallback absoluto para resoluÁ„o do wwwroot (funciona independente do diretÛrio de VS)
+// Fallback absoluto para resolu√ß√£o do wwwroot (funciona independente do diret√≥rio de VS)
 var baseDir = AppContext.BaseDirectory;
 while (!string.IsNullOrEmpty(baseDir) && !Directory.Exists(Path.Combine(baseDir, "wwwroot")))
 {
@@ -24,10 +24,10 @@ if (!string.IsNullOrEmpty(baseDir))
     builder.Environment.ContentRootFileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(baseDir);
 }
 
-// ForÁa a porta 5211
+// For√ßa a porta 5211
 builder.WebHost.UseUrls("http://localhost:5211");
 
-// Adiciona serviÁos ao contÍiner.
+// Adiciona servi√ßos ao cont√™iner.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("String de conex√£o n√£o encontrada.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -44,7 +44,7 @@ var app = builder.Build();
 QuestPDF.Drawing.FontManager.RegisterFontFromStream(System.IO.File.OpenRead(System.IO.Path.Combine(app.Environment.WebRootPath, "fonts", "Montserrat-Bold.ttf")));
 QuestPDF.Drawing.FontManager.RegisterFontFromStream(System.IO.File.OpenRead(System.IO.Path.Combine(app.Environment.WebRootPath, "fonts", "DancingScript-Bold.ttf")));
 
-// Configura o pipeline de requisiÁıes HTTP.
+// Configura o pipeline de requisi√ß√µes HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -52,7 +52,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // O valor padr„o do HSTS È de 30 dias. Para cen·rios de produÁ„o, consulte https://aka.ms/aspnetcore-hsts.
+    // O valor padr√£o do HSTS √© de 30 dias. Para cen√°rios de produ√ß√£o, consulte https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
