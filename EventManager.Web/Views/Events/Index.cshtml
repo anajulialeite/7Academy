@@ -1,11 +1,11 @@
-@model IEnumerable<EventManager.Web.Models.Event>
+ï»¿@model IEnumerable<EventManager.Web.Models.Event>
 
 @{
-    ViewData["Title"] = "Eventos Disponíveis";
+    ViewData["Title"] = "Eventos DisponÃ­veis";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="text-warning"><i class="bi bi-calendar-event me-2"></i>Eventos Acadêmicos</h1>
+    <h1 class="text-warning"><i class="bi bi-calendar-event me-2"></i>Eventos AcadÃªmicos</h1>
     @if (User.IsInRole("Organizador"))
     {
         <a asp-action="Create" class="btn btn-warning fw-bold rounded-pill"><i class="bi bi-plus-circle-fill me-2"></i>Criar Novo Evento</a>
@@ -39,7 +39,7 @@
         <div class="col-12 text-center py-5">
             <div class="p-5 bg-dark-purple border border-warning rounded shadow-sm">
                 <i class="bi bi-calendar-x text-warning" style="font-size: 3rem;"></i>
-                <h4 class="text-light mt-3">Nenhum evento disponível no momento.</h4>
+                <h4 class="text-light mt-3">Nenhum evento disponÃ­vel no momento.</h4>
             </div>
         </div>
     }
