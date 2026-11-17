@@ -1,4 +1,4 @@
-# 7Academy — Sistema de Gestão de Eventos Acadêmicos
+# 7Academy - Sistema de Gestão de Eventos Acadêmicos
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-plain.svg" align="left" width="50" height="50" /> 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" align="left" width="50" height="50" /> 
