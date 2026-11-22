@@ -1,4 +1,4 @@
-# 7Academy — Sistema de Gestão de Eventos Acadêmicos
+# 7Academy - Sistema de Gestão de Eventos Acadêmicos
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-plain.svg" align="left" width="50" height="50" /> 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" align="left" width="50" height="50" /> 
@@ -13,7 +13,7 @@
 
 O **7Academy** é uma plataforma web de capacitação e gestão de eventos acadêmicos. O aluno se inscreve em um curso, estuda pelo material em PDF, realiza uma prova online com correção automática e, ao ser aprovado, emite seu certificado na hora.
 
-O projeto centraliza em uma única aplicação todo o fluxo de participação — da divulgação do curso à emissão do certificado — substituindo processos manuais como listas de presença impressas, correção de provas em papel e certificados preenchidos à mão.
+O projeto centraliza em uma única aplicação todo o fluxo de participação, da divulgação do curso à emissão do certificado, substituindo processos manuais como listas de presença impressas, correção de provas em papel e certificados preenchidos à mão.
 
 **Fluxo do aluno:**
 
