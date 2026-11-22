@@ -21,9 +21,12 @@
                         <span asp-validation-for="Input.Email" class="text-warning fw-bold"></span>
                     </div>
                     
-                    <div class="form-floating mb-4 text-dark">
+                    <div class="form-floating mb-4 text-dark password-field-wrapper">
                         <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" style="background-color: #fff; color: #333;" />
                         <label asp-for="Input.Password" class="form-label text-muted">Senha</label>
+                        <button type="button" class="btn-password-toggle" onclick="togglePasswordVisibility(this)" aria-label="Mostrar senha" title="Mostrar senha">
+                            <i class="bi bi-eye"></i>
+                        </button>
                         <span asp-validation-for="Input.Password" class="text-warning fw-bold"></span>
                     </div>
                     
