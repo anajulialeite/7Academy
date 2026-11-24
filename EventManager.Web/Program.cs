@@ -24,8 +24,11 @@ if (!string.IsNullOrEmpty(baseDir))
     builder.Environment.ContentRootFileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(baseDir);
 }
 
-// Força a porta 5211
-builder.WebHost.UseUrls("http://localhost:5211");
+// Força a porta 5211 apenas localmente (em produção o IIS/servidor gerencia a porta)
+if (builder.Environment.IsDevelopment())
+{
+    builder.WebHost.UseUrls("http://localhost:5211");
+}
 
 // Adiciona serviços ao contêiner.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("String de conexão não encontrada.");
@@ -73,6 +76,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
         await DbInitializer.InitializeAsync(services);
     }
     catch (Exception ex)

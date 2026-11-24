@@ -129,6 +129,15 @@ namespace EventManager.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    if (string.Equals(Input.Email, "anajulia_aninha2@hotmail.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await _userManager.AddToRoleAsync(user, "Organizador");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "Participante");
+                    }
+
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

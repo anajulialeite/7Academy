@@ -80,7 +80,13 @@
                                         {
                                             <tr>
                                                 <td>@h.AttemptDate.ToString("dd/MM/yyyy HH:mm")</td>
-                                                <td class="text-center fw-bold @(h.Score == history.Max(x => x.Score) ? "text-warning" : "")">@h.Score,0@(h.Score == history.Max(x => x.Score) ? " &#9733;" : "")</td>
+                                                <td class="text-center fw-bold @(h.Score == history.Max(x => x.Score) ? "text-warning" : "")">
+                                                    @h.Score,0
+                                                    @if (h.Score == history.Max(x => x.Score))
+                                                    {
+                                                        <i class="bi bi-star-fill ms-1" title="Maior nota"></i>
+                                                    }
+                                                </td>
                                                 <td class="text-end">@(h.Passed ? Html.Raw("<span class='badge bg-success'>Aprovado</span>") : Html.Raw("<span class='badge bg-secondary'>Reprovado</span>"))</td>
                                             </tr>
                                         }
