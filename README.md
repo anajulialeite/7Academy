@@ -195,7 +195,7 @@ Na primeira execução, o sistema cria automaticamente os perfis **Organizador**
 
 A documentação técnica e acadêmica do projeto está disponível na pasta [`docs`](./docs).
 
-* [Resultado 1 — Análise, Modelagem e Estrutura do 7Academy](docs/Cronograma_Estagio_assinado.pdf)
+* [Resultado 1 — Análise, Modelagem e Estrutura do 7Academy](docs/RELATÓRIO DE TESTES E HOMOLOGAÇÃO.pdf)
 * [Script SQL Server do Banco de Dados (`BancoDeDados_Script.sql`)](docs/BancoDeDados_Script.sql)
 
 A documentação acompanha a evolução do sistema durante as etapas de desenvolvimento, incluindo o Relatório de Testes e Homologação.
