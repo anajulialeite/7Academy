@@ -21,9 +21,11 @@ O projeto centraliza em uma única aplicação todo o fluxo de participação, d
 Inscrição no curso  →  Material de estudo (PDF)  →  Prova online  →  Nota ≥ 7,0  →  Certificado (PDF)
 ```
 
+> 🌐 **Acesse o sistema publicado online:** [https://7academy.runasp.net/](https://7academy.runasp.net/) *(hospedado via **MonsterASP.NET**)*
+
 ## Principais Funcionalidades
 
-* Cadastro de usuários com **nome completo**, e-mail e senha.
+* Cadastro e login de usuários com **nome completo**, e-mail, senha e opção de visualizar/ocultar senha.
 * Controle de acesso por perfil de **Organizador** e **Participante**.
 * Criação, edição, visualização e exclusão de cursos e eventos.
 * **Catálogo oficial com 7 cursos** de 20 horas cada: Java + POO, C# e .NET + POO, Python + POO, HTML5/CSS3/JavaScript, Microsoft SQL Server, Git e GitHub e Inteligência Artificial.
@@ -42,10 +44,11 @@ Inscrição no curso  →  Material de estudo (PDF)  →  Prova online  →  Not
 
 * **Back-end:** C#, .NET 8, ASP.NET Core MVC, Entity Framework Core
 * **Front-end:** HTML5, CSS3, JavaScript, Bootstrap 5 e Bootstrap Icons
-* **Banco de Dados:** Microsoft SQL Server (LocalDB)
+* **Banco de Dados:** Microsoft SQL Server (LocalDB em desenvolvimento e SQL Server em nuvem na produção)
 * **Autenticação e Autorização:** ASP.NET Core Identity e Roles
 * **Geração de PDF:** QuestPDF (fontes Montserrat e Dancing Script)
 * **Arquitetura:** MVC (Model-View-Controller)
+* **Deploy e Hospedagem:** MonsterASP.NET (com certificado SSL/HTTPS Let's Encrypt)
 * **Controle de Versão:** Git e GitHub
 
 ## Arquitetura do Projeto
@@ -132,7 +135,16 @@ A autenticação e a autorização são realizadas pelo **ASP.NET Core Identity*
 
 Os formulários utilizam proteção **Anti-Forgery Token** e a exclusão de conta exige a **confirmação da senha**. Informações sensíveis e credenciais não são armazenadas diretamente no código-fonte nem versionadas no repositório.
 
-## Como Executar
+## Deploy em Produção (MonsterASP.NET)
+
+O projeto encontra-se publicado e disponível para acesso web e mobile através da plataforma **MonsterASP.NET**:
+
+* **URL de Produção:** [https://7academy.runasp.net/](https://7academy.runasp.net/)
+* **Hospedagem da Aplicação:** Servidor IIS dedicado para **ASP.NET Core (.NET 8)**.
+* **Banco de Dados em Nuvem:** **Microsoft SQL Server** integrado ao MonsterASP.NET, com aplicação automática das *Migrations* e carga inicial dos 7 cursos oficiais e 70 questões na inicialização do sistema.
+* **Segurança em Trânsito:** Certificado **SSL/HTTPS (Let's Encrypt)** ativo com renovação automática, garantindo compatibilidade e acesso seguro tanto em navegadores desktop quanto em dispositivos móveis.
+
+## Como Executar Localmente
 
 ### Pré-requisitos
 
